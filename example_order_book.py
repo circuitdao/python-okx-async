@@ -1,6 +1,6 @@
 import os
 import asyncio
-from dotenv import load_dotenv
+from dotenv import load_dotenv # 'pip install python-dotenv' to install this package
 from pprint import pprint
 
 from okx_async.AsyncMarketData import AsyncMarketAPI
