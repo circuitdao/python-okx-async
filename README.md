@@ -30,10 +30,10 @@ OKX_API_KEY=<key>
 OKX_API_PASSPHRASE=<passphrase>
 OKX_API_SECRET=<secret>
 ```
-API credentials are stored in a ```.env``` file for security reasons. It is not advisable to include API credentials directly in source code or to provide them as command line arguments.
+API credentials are stored in a ```.env``` file for security reasons. It is not advisable to include API credentials directly in source code or to supply them as command line arguments.
 
 ### Run examples
-Import and instantiate the API wrapper class ```AsyncTradeAPI```, which is used for order placement, as follows
+Import and instantiate the API wrapper class ```AsyncTradeAPI```, which is used for order placement, as shown below. You may first need to run ```pip install python-dotenv``` to install the ```dotenv``` package on your system.
 ```
 import os
 from dotenv import load_dotenv
@@ -43,8 +43,8 @@ load_dotenv()
 
 tradeAPI = AsyncTradeAPI(os.getenv("OKX_API_KEY"), os.getenv("OKX_API_SECRET"), os.getenv("OKX_API_PASSPHRASE"), flag="0", debug=False)
 ```
-The other API classes can be instantiated similarly. Note that by default ```flag="1"```, which is the OKX demo environment, and ```debug=True```.
+The other REST API classes can be instantiated similarly. Note that by default ```flag="1"```, which is the OKX demo environment, and ```debug=True```.
 
-The ```example_order_book.py``` script included in the Github repository prints the order book for the XCH-USDT spot market to a depth of 20 levels.
+For a complete example see the ```example_order_book.py``` file included in the Github repository. The script prints the order book for the XCH-USDT spot market to a depth of 20 levels.
 
 Also make sure to check out the documentation of ```python-okx```, and the additional [examples](https://github.com/okxapi/python-okx/example) included in that repository.
