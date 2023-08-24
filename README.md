@@ -47,4 +47,4 @@ The other REST API classes can be instantiated similarly. Note that by default `
 
 For a complete example see the ```example_order_book.py``` file included in the Github repository. The script prints the order book for the XCH-USDT spot market to a depth of 20 levels.
 
-Also make sure to check out the documentation of ```python-okx```, and the additional [examples](https://github.com/okxapi/python-okx/example) included in that repository.
+Also make sure to check out the documentation of ```python-okx```, and the additional [examples](https://github.com/okxapi/python-okx/tree/master/example) included in that repository.
