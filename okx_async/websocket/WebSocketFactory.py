@@ -13,7 +13,7 @@ class WebSocketFactory:
     def __init__(self, url):
         self.url = url
         self.websocket = None
-        self.loop = asyncio.get_event_loop()
+        #self.loop = asyncio.get_event_loop()
 
     async def connect(self):
         ssl_context = ssl.create_default_context()

@@ -2,18 +2,20 @@ import asyncio
 import json
 import logging
 
-from okx.websocket.WebSocketFactory import WebSocketFactory
+from okx_async.websocket.WebSocketFactory import WebSocketFactory
 
 logger = logging.getLogger(__name__)
 
 
 class WsPublicAsync:
     def __init__(self, url):
+        print(f"Setting url in WsPublicAsync to {url}")
         self.url = url
         self.subscriptions = set()
         self.callback = None
         self.loop = asyncio.get_event_loop()
         self.factory = WebSocketFactory(url)
+        self.websocket = None
 
     async def connect(self):
         self.websocket = await self.factory.connect()
@@ -45,11 +47,13 @@ class WsPublicAsync:
     async def stop(self):
         await self.factory.close()
         self.loop.stop()
+        self.websocket = None
 
     async def start(self):
         logger.info("Connecting to WebSocket...")
         await self.connect()
-        self.loop.create_task(self.consume())
+        asyncio.create_task(self.consume())
 
-    def stop_sync(self):
+    async def stop_sync(self):
         self.loop.run_until_complete(self.stop())
+

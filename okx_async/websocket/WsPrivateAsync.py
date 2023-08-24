@@ -2,8 +2,8 @@ import asyncio
 import json
 import logging
 
-from okx.websocket import WsUtils
-from okx.websocket.WebSocketFactory import WebSocketFactory
+from okx_async.websocket import WsUtils
+from okx_async.websocket.WebSocketFactory import WebSocketFactory
 
 logger = logging.getLogger(__name__)
 
