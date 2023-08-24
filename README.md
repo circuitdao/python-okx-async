@@ -1,78 +1,50 @@
-### Overview
-This is an unofficial Python wrapper for the [OKX exchange v5 API](https://www.okx.com/okx-api)
+# About
+```python-okx-async``` is an unofficial Python wrapper for the [OKX exchange v5 API](https://www.okx.com/okx-api) that comes with async support.
+The wrapper is an extension of the [```python-okx```](https://github.com/okxapi/python-okx) package, which supports synchronous REST requests and websocket streams.
 
-If you came here looking to purchase cryptocurrencies from the OKX exchange, please go [here](https://www.okx.com/).
-
-#### Source code
-https://github.com/okxapi/python-okx
-#### OKX API Telegram
-https://t.me/OKXAPI
-#### API trading tutorials
-- Spot trading: https://www.okx.com/learn/spot-trading-with-jupyter-notebook
-- Derivative trading: https://www.okx.com/learn/derivatives-trading-with-jupyter-notebook
-
-Make sure you update often and check the [Changelog](https://www.okx.com/docs-v5/log_en/) for new features and bug fixes.
-
-### Features
-- Implementation of all Rest API endpoints.
-- Private and Public Websocket implementation
-- Testnet support 
-- Websocket handling with reconnection and multiplexed connections
-
-### Quick start
-#### Prerequisites
-
-`python version：>=3.9`
-
-`WebSocketAPI： websockets package advise version 6.0`
-
-#### Step 1: register an account on OKX and apply for an API key
-- Register for an account: https://www.okx.com/account/register
-- Apply for an API key: https://www.okx.com/account/users/myApi
-
-#### Step 2: install python-okx
-
-```python
-pip install python-okx
+# Installation
+To install the package, run
+```
+pip install python-okx-async
 ```
 
-#### Step 3: Run examples
+# Quick start
 
-- Fill in API credentials in the corresponding examples
-```python 
-api_key = ""
-secret_key = ""
-passphrase = ""
+### Create an OKX account
+- If you don't already have an OKX account, register for one on https://www.okx.com/account/register
+
+### Create API credentials
+- Log into your OK account and select ```API keys``` in the user menu
+- Click the ```+ Create V5 API key``` button
+- Follow the instructions to create API credentials (key, passhprase, secret)
+
+### Save API credentials
+- If there isn't a ```.env``` file in your home directory, create one and make sure it can only be read and written to by you.
 ```
-- RestAPI
-  - For spot trading: run example/get_started_en.ipynb
-  - For derivative trading: run example/trade_derivatives_en.ipynb
-  - Tweak the value of the parameter `flag` (live trading: 0, demo trading: 1
-) to switch between live and demo trading environment
-- WebSocketAPI
-  - Run test/WsPrivateTest.py for private websocket channels
-  - Run test/WsPublicTest.py for public websocket channels
-  - Use different URLs for different environment
-      - Live trading URLs: https://www.okx.com/docs-v5/en/#overview-production-trading-services
-      - Demo trading URLs: https://www.okx.com/docs-v5/en/#overview-demo-trading-services
+touch ~/.env
+chmod 600 ~/.env
+```
+- Add the following lines to the ```.env``` file, replacing the text to the right of the equal signs with the credentials created above. Note that the credentials should NOT be enclosed in quotation marks.
+```
+OKX_API_KEY=<key>
+OKX_API_PASSPHRASE=<passphrase>
+OKX_API_SECRET=<secret>
+```
+API credentials are stored in a ```.env``` file for security reasons. It is not advisable to include API credentials directly in source code or to provide them as command line arguments.
 
-Note 
+### Run examples
+Import and instantiate the API wrapper class ```AsyncTradeAPI```, which is used for order placement, as follows
+```
+import os
+from dotenv import load_dotenv
+from okx_async.AsyncTrade import AsyncTradeAPI
 
-- To learn more about OKX API, visit official [OKX API documentation](https://www.okx.com/docs-v5/en/)
+load_dotenv()
 
-- If you face any questions when using `WebSocketAPI`,you can consult the following links
+tradeAPI = AsyncTradeAPI(os.getenv("OKX_API_KEY"), os.getenv("OKX_API_SECRET"), os.getenv("OKX_API_PASSPHRASE"), flag="0", debug=False)
+```
+The other API classes can be instantiated similarly. Note that by default ```flag="1"```, which is the OKX demo environment, and ```debug=True```.
 
-  - `asyncio`、`websockets` document/`github`：
+The ```example_order_book.py``` script included in the Github repository prints the order book for the XCH-USDT spot market to a depth of 20 levels.
 
-    ```python 
-    https://docs.python.org/3/library/asyncio-dev.html
-    https://websockets.readthedocs.io/en/stable/intro.html
-    https://github.com/aaugustin/websockets
-    ```
-
-  - About `code=1006`：
-
-    ```python 
-    https://github.com/Rapptz/discord.py/issues/1996
-    https://github.com/aaugustin/websockets/issues/587
-    ```
+Also make sure to check out the documentation of ```python-okx```, and the additional [examples](https://github.com/okxapi/python-okx/example) included in that repository.

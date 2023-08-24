@@ -1,6 +1,8 @@
+### Builds and distributions ###
 build/
 dist/
 python_okx.egg-info/
+python_okx_async.egg-info/
 *.DS_Store
 **/__pycache__
 **/**/__pycache__
@@ -33,3 +35,11 @@ build/
 ### VS Code ###
 .vscode/
 id_rsa*
+
+### Temporary Emacs files ###
+**/~
+**/#*#
+
+### Python virtual environment ###
+activate
+venv/

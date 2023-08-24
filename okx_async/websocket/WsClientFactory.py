@@ -14,7 +14,7 @@ class WsReconnectingClientFactory(ReconnectingClientFactory):
         """
     initialDelay = 0.1
     maxDelay = 2
-    maxRetries = 5
+    maxRetries = None
 
 
 class WsClientFactory(WebSocketClientFactory, WsReconnectingClientFactory):
@@ -34,15 +34,17 @@ class WsClientFactory(WebSocketClientFactory, WsReconnectingClientFactory):
         self.logger.error(
             "Can't connect to server. Reason: {}. Retrying: {}".format(reason, self.retries + 1))
         self.retry(connector)
-        if self.retries > self.maxRetries:
-            self.callback(self.reachMaxRetriesError)
+        if self.maxRetries is not None:
+            if self.retries > self.maxRetries:
+                self.callback(self.reachMaxRetriesError)
 
     def clientConnectionLost(self, connector, reason):
         self.logger.error("WsClientFactory execute clientConnectionLost. Reason: {},retried {} times".format(reason,
                                                                                                              self.retries + 1))
         self.retry(connector)
-        if self.retries > self.maxRetries:
-            self.callback(self.reachMaxRetriesError)
+        if self.maxRetries is not None:
+            if self.retries > self.maxRetries:
+                self.callback(self.reachMaxRetriesError)
 
     def buildProtocol(self, addr):
         protocol = WsClientProtocol(self, payload=self.payload)

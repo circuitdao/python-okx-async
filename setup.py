@@ -1,14 +1,14 @@
 import setuptools
-import okx
+import okx_async
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="python-okx",
-    version=okx.__version__,
-    author="okxv5api",
-    author_email="api@okg.com",
-    description="Python SDK for OKX",
+    name="python-okx-async",
+    version=okx_async.__version__,
+    author="CircuitDAO",
+    author_email="info@circuitdao.com",
+    description="Python SDK with async support for the OKX v5 API",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://okx.com/docs-v5/",
