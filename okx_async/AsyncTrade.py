@@ -4,7 +4,7 @@ from .consts import *
 
 class AsyncTradeAPI(AsyncClient):
 
-    def __init__(self, api_key='-1', api_secret_key='-1', passphrase='-1', use_server_time=False, flag='1', domain='https://www.okx.com', debug=True):
+    def __init__(self, api_key='-1', api_secret_key='-1', passphrase='-1', use_server_time=False, flag='0', domain=API_URL, debug=False):
         AsyncClient.__init__(self, api_key, api_secret_key, passphrase, use_server_time, flag, domain, debug)
 
     # Place Order
@@ -16,20 +16,20 @@ class AsyncTradeAPI(AsyncClient):
                   'tgtCcy': tgtCcy, 'tpTriggerPx': tpTriggerPx, 'tpOrdPx': tpOrdPx, 'slTriggerPx': slTriggerPx,
                   'slOrdPx': slOrdPx, 'tpTriggerPxType': tpTriggerPxType, 'slTriggerPxType': slTriggerPxType,
                   'quickMgnType': quickMgnType, 'stpId': stpId, 'stpMode': stpMode}
-        return self._request_with_params(POST, PLACR_ORDER, params)
+        return await self._request_with_params(POST, PLACR_ORDER, params)
 
     # Place Multiple Orders
     async def place_multiple_orders(self, orders_data):
-        return self._request_with_params(POST, BATCH_ORDERS, orders_data)
+        return await self._request_with_params(POST, BATCH_ORDERS, orders_data)
 
     # Cancel Order
     async def cancel_order(self, instId, ordId='', clOrdId=''):
         params = {'instId': instId, 'ordId': ordId, 'clOrdId': clOrdId}
-        return self._request_with_params(POST, CANAEL_ORDER, params)
+        return await self._request_with_params(POST, CANAEL_ORDER, params)
 
     # Cancel Multiple Orders
     async def cancel_multiple_orders(self, orders_data):
-        return self._request_with_params(POST, CANAEL_BATCH_ORDERS, orders_data)
+        return await self._request_with_params(POST, CANAEL_BATCH_ORDERS, orders_data)
 
     # Amend Order
     async def amend_order(self, instId, cxlOnFail='', ordId='', clOrdId='', reqId='', newSz='', newPx='', newTpTriggerPx='',
@@ -38,28 +38,28 @@ class AsyncTradeAPI(AsyncClient):
                   'newSz': newSz, 'newPx': newPx, 'newTpTriggerPx': newTpTriggerPx, 'newTpOrdPx': newTpOrdPx,
                   'newSlTriggerPx': newSlTriggerPx, 'newSlOrdPx': newSlOrdPx, 'newTpTriggerPxType': newTpTriggerPxType,
                   'newSlTriggerPxType': newSlTriggerPxType}
-        return self._request_with_params(POST, AMEND_ORDER, params)
+        return await self._request_with_params(POST, AMEND_ORDER, params)
 
     # Amend Multiple Orders
     async def amend_multiple_orders(self, orders_data):
-        return self._request_with_params(POST, AMEND_BATCH_ORDER, orders_data)
+        return await self._request_with_params(POST, AMEND_BATCH_ORDER, orders_data)
 
     # Close Positions
     async def close_positions(self, instId, mgnMode, posSide='', ccy='', autoCxl='', clOrdId='', tag=''):
         params = {'instId': instId, 'mgnMode': mgnMode, 'posSide': posSide, 'ccy': ccy, 'autoCxl': autoCxl,
                   'clOrdId': clOrdId, 'tag': tag}
-        return self._request_with_params(POST, CLOSE_POSITION, params)
+        return await self._request_with_params(POST, CLOSE_POSITION, params)
 
     # Get Order Details
     async def get_order(self, instId, ordId='', clOrdId=''):
         params = {'instId': instId, 'ordId': ordId, 'clOrdId': clOrdId}
-        return self._request_with_params(GET, ORDER_INFO, params)
+        return await self._request_with_params(GET, ORDER_INFO, params)
 
     # Get Order List
     async def get_order_list(self, instType='', uly='', instId='', ordType='', state='', after='', before='', limit='',instFamily = ''):
         params = {'instType': instType, 'uly': uly, 'instId': instId, 'ordType': ordType, 'state': state,
                   'after': after, 'before': before, 'limit': limit,'instFamily':instFamily}
-        return self._request_with_params(GET, ORDERS_PENDING, params)
+        return await self._request_with_params(GET, ORDERS_PENDING, params)
 
     # Get Order History (last 7 days）
     async def get_orders_history(self, instType, uly='', instId='', ordType='', state='', after='', before='', begin='',
@@ -67,7 +67,7 @@ class AsyncTradeAPI(AsyncClient):
         params = {'instType': instType, 'uly': uly, 'instId': instId, 'ordType': ordType, 'state': state,
                   'after': after, 'before': before, 'begin': begin, 'end': end, 'limit': limit,
                   'instFamily': instFamily}
-        return self._request_with_params(GET, ORDERS_HISTORY, params)
+        return await self._request_with_params(GET, ORDERS_HISTORY, params)
 
     # Get Order History (last 3 months)
     async def get_orders_history_archive(self, instType, uly='', instId='', ordType='', state='', after='', before='',
@@ -75,13 +75,13 @@ class AsyncTradeAPI(AsyncClient):
         params = {'instType': instType, 'uly': uly, 'instId': instId, 'ordType': ordType, 'state': state,
                   'after': after, 'before': before, 'begin': begin, 'end': end, 'limit': limit,
                   'instFamily': instFamily}
-        return self._request_with_params(GET, ORDERS_HISTORY_ARCHIVE, params)
+        return await self._request_with_params(GET, ORDERS_HISTORY_ARCHIVE, params)
 
     # Get Transaction Details
     async def get_fills(self, instType='', uly='', instId='', ordId='', after='', before='', limit='',instFamily = ''):
         params = {'instType': instType, 'uly': uly, 'instId': instId, 'ordId': ordId, 'after': after, 'before': before,
                   'limit': limit,'instFamily':instFamily}
-        return self._request_with_params(GET, ORDER_FILLS, params)
+        return await self._request_with_params(GET, ORDER_FILLS, params)
 
     # Place Algo Order
     async def place_algo_order(self, instId='', tdMode='', side='', ordType='', sz='', ccy='',
@@ -100,43 +100,43 @@ class AsyncTradeAPI(AsyncClient):
                   'pxSpread': pxSpread, 'tpTriggerPxType': tpTriggerPxType, 'slTriggerPxType': slTriggerPxType,
                   'callbackRatio' : callbackRatio, 'callbackSpread':callbackSpread,'activePx':activePx,
                   'tag':tag,'triggerPxType':triggerPxType,'closeFraction':closeFraction,'quickMgnType':quickMgnType,'algoClOrdId':algoClOrdId}
-        return self._request_with_params(POST, PLACE_ALGO_ORDER, params)
+        return await self._request_with_params(POST, PLACE_ALGO_ORDER, params)
 
     # Cancel Algo Order
     async def cancel_algo_order(self, params):
-        return self._request_with_params(POST, CANCEL_ALGOS, params)
+        return await self._request_with_params(POST, CANCEL_ALGOS, params)
 
     # Cancel Advance Algos
     async def cancel_advance_algos(self,params):
-        return self._request_with_params(POST, Cancel_Advance_Algos, params)
+        return await self._request_with_params(POST, Cancel_Advance_Algos, params)
 
     # Get Algo Order List
     async def order_algos_list(self, ordType='', algoId='', instType='', instId='', after='', before='', limit='',algoClOrdId=''):
         params = {'ordType': ordType, 'algoId': algoId, 'instType': instType, 'instId': instId, 'after': after,
                   'before': before, 'limit': limit, 'algoClOrdId': algoClOrdId}
-        return self._request_with_params(GET, ORDERS_ALGO_OENDING, params)
+        return await self._request_with_params(GET, ORDERS_ALGO_OENDING, params)
 
     # Get Algo Order History
     async def order_algos_history(self, ordType, state='', algoId='', instType='', instId='', after='', before='', limit=''):
         params = {'ordType': ordType, 'state': state, 'algoId': algoId, 'instType': instType, 'instId': instId,
                   'after': after, 'before': before, 'limit': limit}
-        return self._request_with_params(GET, ORDERS_ALGO_HISTORY, params)
+        return await self._request_with_params(GET, ORDERS_ALGO_HISTORY, params)
 
     # Get Transaction Details History
     async def get_fills_history(self, instType, uly='', instId='', ordId='', after='', before='', limit='',instFamily=''):
         params = {'instType': instType, 'uly': uly, 'instId': instId, 'ordId': ordId, 'after': after, 'before': before,
                   'limit': limit,'instFamily':instFamily}
-        return self._request_with_params(GET, ORDERS_FILLS_HISTORY, params)
+        return await self._request_with_params(GET, ORDERS_FILLS_HISTORY, params)
 
     async def get_easy_convert_currency_list(self):
-        return self._request_without_params(GET, EASY_CONVERT_CURRENCY_LIST)
+        return await self._request_without_params(GET, EASY_CONVERT_CURRENCY_LIST)
 
     async def easy_convert(self,fromCcy = [],toCcy = ''):
         params = {
             'fromCcy':fromCcy,
             'toCcy':toCcy
         }
-        return self._request_with_params(POST, EASY_CONVERT, params)
+        return await self._request_with_params(POST, EASY_CONVERT, params)
 
     async def get_easy_convert_history(self,before = '',after = '',limit = ''):
         params = {
@@ -144,20 +144,20 @@ class AsyncTradeAPI(AsyncClient):
             'after':after,
             'limit':limit
         }
-        return self._request_with_params(GET,CONVERT_EASY_HISTORY,params)
+        return await self._request_with_params(GET,CONVERT_EASY_HISTORY,params)
 
     async def get_oneclick_repay_list(self,debtType = ''):
         params = {
             'debtType':debtType
         }
-        return self._request_with_params(GET,ONE_CLICK_REPAY_SUPPORT,params)
+        return await self._request_with_params(GET,ONE_CLICK_REPAY_SUPPORT,params)
 
     async def oneclick_repay(self,debtCcy = [] , repayCcy=''):
         params = {
             'debtCcy':debtCcy,
             'repayCcy':repayCcy
         }
-        return self._request_with_params(POST,ONE_CLICK_REPAY,params)
+        return await self._request_with_params(POST,ONE_CLICK_REPAY,params)
 
     async def oneclick_repay_history(self,after = '',before = '',limit = ''):
         params = {
@@ -165,12 +165,12 @@ class AsyncTradeAPI(AsyncClient):
             'before':before,
             'limit':limit
         }
-        return self._request_with_params(GET,ONE_CLICK_REPAY_HISTORY,params)
+        return await self._request_with_params(GET,ONE_CLICK_REPAY_HISTORY,params)
 
     # Get algo order details
     async def get_algo_order_details(self, algoId='', algoClOrdId=''):
         params = {'algoId': algoId, 'algoClOrdId': algoClOrdId}
-        return self._request_with_params(GET, GET_ALGO_ORDER_DETAILS, params)
+        return await self._request_with_params(GET, GET_ALGO_ORDER_DETAILS, params)
 
     # Amend algo order
     async def amend_algo_order(self, instId='', algoId='', algoClOrdId='', cxlOnFail='', reqId='', newSz='',
@@ -180,4 +180,4 @@ class AsyncTradeAPI(AsyncClient):
                   'reqId': reqId, 'newSz': newSz, 'newTpTriggerPx': newTpTriggerPx, 'newTpOrdPx': newTpOrdPx,
                   'newSlTriggerPx': newSlTriggerPx, 'newSlOrdPx': newSlOrdPx,
                   'newTpTriggerPxType': newTpTriggerPxType, 'newSlTriggerPxType': newSlTriggerPxType}
-        return self._request_with_params(POST, AMEND_ALGO_ORDER, params)
+        return await self._request_with_params(POST, AMEND_ALGO_ORDER, params)

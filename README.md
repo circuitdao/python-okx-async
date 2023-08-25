@@ -41,9 +41,9 @@ from okx_async.AsyncTrade import AsyncTradeAPI
 
 load_dotenv()
 
-tradeAPI = AsyncTradeAPI(os.getenv("OKX_API_KEY"), os.getenv("OKX_API_SECRET"), os.getenv("OKX_API_PASSPHRASE"), flag="0", debug=False)
+tradeAPI = AsyncTradeAPI(os.getenv("OKX_API_KEY"), os.getenv("OKX_API_SECRET"), os.getenv("OKX_API_PASSPHRASE"))
 ```
-The other REST API classes can be instantiated similarly. Note that by default ```flag="1"```, which is the OKX demo environment, and ```debug=True```.
+The other REST API classes can be instantiated similarly. Note that async classes are initialized with default arguments ```flag='1'``` and ```debug=True```, i.e. async classes are by default in the OKX production environment and not in debug mode.
 
 For a complete example see the ```example_order_book.py``` file included in the Github repository. The script prints the order book for the XCH-USDT spot market to a depth of 20 levels.
 

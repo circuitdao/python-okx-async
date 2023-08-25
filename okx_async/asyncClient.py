@@ -10,6 +10,8 @@ class AsyncClient(httpx.AsyncClient):
 
     def __init__(self, api_key = '-1', api_secret_key = '-1', passphrase = '-1', use_server_time=None, flag='1', base_api=c.API_URL, debug='True', proxy=None):
         super().__init__(base_url=base_api, http2=True, proxy=proxy)
+        # def __init__(self, api_key = '-1', api_secret_key = '-1', passphrase = '-1', use_server_time=False, flag='0', base_api=c.API_URL, debug=False):
+        #>>>>>>> 2734b5c (added missing await keywords in AsyncTradeAPI class. changed default behaviour of async classes from demo/debug to live/production mode. updated readme and example script)
         self.API_KEY = api_key
         self.API_SECRET_KEY = api_secret_key
         self.PASSPHRASE = passphrase
@@ -26,7 +28,7 @@ class AsyncClient(httpx.AsyncClient):
             request_path = request_path + utils.parse_params_to_str(params)
         timestamp = utils.get_timestamp()
         if self.use_server_time:
-            timestamp = self._get_timestamp()
+            timestamp = await self._get_timestamp()
         body = json.dumps(params) if method == c.POST else ""
         if self.API_KEY != '-1':
             sign = utils.sign(utils.pre_hash(timestamp, method, request_path, str(body), self.debug), self.API_SECRET_KEY)
