@@ -12,9 +12,7 @@ async def print_order_book(instId, sz):
 
       marketDataAPI = AsyncMarketAPI(os.getenv("OKX_API_KEY"),
                                      os.getenv("OKX_API_SECRET"),
-                                     os.getenv("OKX_API_PASSPHRASE"),
-                                     flag="0",
-                                     debug=False)
+                                     os.getenv("OKX_API_PASSPHRASE"))
 
       order_book = await marketDataAPI.get_orderbook(instId, depth)
       pprint(order_book)

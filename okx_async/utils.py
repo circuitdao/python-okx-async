@@ -10,13 +10,13 @@ def sign(message, secretKey):
     return base64.b64encode(d)
 
 
-def pre_hash(timestamp, method, request_path, body,debug = True):
+def pre_hash(timestamp, method, request_path, body, debug=True):
     if debug == True:
         print('body: ',body)
     return str(timestamp) + str.upper(method) + request_path + body
 
 
-def get_header(api_key, sign, timestamp, passphrase, flag,debug = True):
+def get_header(api_key, sign, timestamp, passphrase, flag, debug=True):
     header = dict()
     header[c.CONTENT_TYPE] = c.APPLICATION_JSON
     header[c.OK_ACCESS_KEY] = api_key
@@ -28,7 +28,7 @@ def get_header(api_key, sign, timestamp, passphrase, flag,debug = True):
         print('header: ',header)
     return header
 
-def get_header_no_sign(flag,debug = True):
+def get_header_no_sign(flag, debug=True):
     header = dict()
     header[c.CONTENT_TYPE] = c.APPLICATION_JSON
     header['x-simulated-trading'] = flag

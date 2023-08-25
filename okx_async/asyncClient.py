@@ -7,7 +7,7 @@ from . import consts as c, utils, exceptions
 
 class AsyncClient(object):
 
-    def __init__(self, api_key = '-1', api_secret_key = '-1', passphrase = '-1', use_server_time=False, flag='1', base_api=c.API_URL, debug='True'):
+    def __init__(self, api_key = '-1', api_secret_key = '-1', passphrase = '-1', use_server_time=False, flag='0', base_api=c.API_URL, debug=False):
         self.API_KEY = api_key
         self.API_SECRET_KEY = api_secret_key
         self.PASSPHRASE = passphrase
@@ -22,7 +22,7 @@ class AsyncClient(object):
             request_path = request_path + utils.parse_params_to_str(params)
         timestamp = utils.get_timestamp()
         if self.use_server_time:
-            timestamp = self._get_timestamp()
+            timestamp = await self._get_timestamp()
         body = json.dumps(params) if method == c.POST else ""
         if self.API_KEY != '-1':
             sign = utils.sign(utils.pre_hash(timestamp, method, request_path, str(body), self.debug), self.API_SECRET_KEY)
