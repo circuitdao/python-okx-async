@@ -1,6 +1,5 @@
 import asyncio
 
-#from okx.websocket.WsPublicAsync import WsPublicAsync
 from okx_async.websocket.WsPublicAsync import WsPublicAsync
 
 
@@ -10,31 +9,17 @@ def publicCallback(message):
 
 async def main():
 
-    # url = "wss://wspap.okex.com:8443/ws/v5/public?brokerId=9999"
-    #url = "wss://wspap.okx.com:8443/ws/v5/public?brokerId=9999"
     url = "wss://ws.okx.com:8443/ws/v5/public"
     ws = WsPublicAsync(url=url)
     await ws.start()
-    args = []
-    #arg1 = {"channel": "instruments", "instType": "FUTURES"}
-    #arg2 = {"channel": "instruments", "instType": "SPOT"}
-    #arg3 = {"channel": "tickers", "instId": "BTC-USDT-SWAP"}
-    #arg4 = {"channel": "tickers", "instId": "ETH-USDT"}
-    arg4 = {"channel": "tickers", "instId": "XCH-USDT"}
-    #args.append(arg1)
-    #args.append(arg2)
-    #args.append(arg3)
-    args.append(arg4)
+    #arg = {"channel": "tickers", "instId": "XCH-USDT"}
+    args = [{"channel": "books", "instId": "XCH-USDT"}]
+    print("------------------------------------------subscribe---------------------------------------------")
     await ws.subscribe(args, publicCallback)
-    await asyncio.sleep(120)
+    await asyncio.sleep(30)
     print("-----------------------------------------unsubscribe--------------------------------------------")
-    args2 = [arg4]
-    await ws.unsubscribe(args2, publicCallback)
+    await ws.unsubscribe(args, publicCallback)
     await asyncio.sleep(5)
-    #print("-----------------------------------------unsubscribe all--------------------------------------------")
-    #args3 = [arg1, arg2, arg3]
-    #await ws.unsubscribe(args3, publicCallback)
-
 
 if __name__ == '__main__':
     asyncio.run(main())
